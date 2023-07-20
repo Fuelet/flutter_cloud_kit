@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cloud_kit/flutter_cloud_kit.dart';
 import 'package:flutter_cloud_kit/types/cloud_kit_account_status.dart';
+import 'package:flutter_cloud_kit/types/database_scope.dart';
 
 const exampleContainerId = "app.fuelet.flutter_cloud_kit.example";
+const exampleRecordType = "ExampleRecordType";
 
 void main() {
   runApp(const FlutterCloudKitExample());
@@ -40,7 +42,16 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  print("Not implemented yet");
+                  var record = {key.text: value.text};
+                  try {
+                    await cloudKit.saveRecord(
+                        scope: CloudKitDatabaseScope.private,
+                        recordType: exampleRecordType,
+                        record: record);
+                    print('Successfully saved the record $record');
+                  } catch (e) {
+                    print('Failed to save the record: $e');
+                  }
                 },
                 child: const Text('Save'),
               ),

@@ -10,15 +10,10 @@ import Flutter
 
 class GetAccountStatusHandler {
     static func handle(arguments: Dictionary<String, Any>, result: @escaping FlutterResult) -> Void {
-        var container: CKContainer;
-        if let containerId = arguments["containerId"] as? String {
-            container = CKContainer(identifier: containerId)
-        } else {
-            container = CKContainer.default()
-        }
+        let container = extractContainerFromArgsOrDefault(arguments: arguments);
         container.accountStatus { (accountStatus: CKAccountStatus, error: Error?) in
             if (error != nil) {
-                result(FlutterError.init(code: "Error", message: error!.localizedDescription, details: nil))
+                result(createFlutterError(message: error!.localizedDescription))
                 return
             }
             result(accountStatus.rawValue)

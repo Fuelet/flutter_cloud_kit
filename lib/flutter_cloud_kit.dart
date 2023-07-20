@@ -1,4 +1,5 @@
 import 'package:flutter_cloud_kit/types/cloud_kit_account_status.dart';
+import 'package:flutter_cloud_kit/types/database_scope.dart';
 
 import 'flutter_cloud_kit_platform_interface.dart';
 
@@ -8,6 +9,20 @@ class FlutterCloudKit {
   FlutterCloudKit({this.containerId});
 
   Future<CloudKitAccountStatus> getAccountStatus() {
-    return FlutterCloudKitPlatform.instance.getAccountStatus(this.containerId);
+    return FlutterCloudKitPlatform.instance
+        .getAccountStatus(containerId: containerId);
+  }
+
+  Future<void> saveRecord(
+      {required CloudKitDatabaseScope scope,
+      required String recordType,
+      required Map<String, String> record,
+      String? recordName}) {
+    return FlutterCloudKitPlatform.instance.saveRecord(
+        containerId: containerId,
+        scope: scope,
+        recordType: recordType,
+        record: record,
+        recordName: recordName);
   }
 }

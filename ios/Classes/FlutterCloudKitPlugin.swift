@@ -8,13 +8,16 @@ public class FlutterCloudKitPlugin: NSObject, FlutterPlugin {
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
     
+    // TODO: handle ObjectiveC exceptions
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let callArguments: Dictionary<String, Any> = call.arguments as! Dictionary<String, Any>
         
         if (call.method == "getAccountStatus") {
             GetAccountStatusHandler.handle(arguments: callArguments, result: result)
+        } else if (call.method == "saveRecord") {
+            SaveRecordHandler.handle(arguments: callArguments, result: result)
         } else {
-            result(FlutterError.init(code: "Error", message: "Not implemented", details: nil))
+            result(createFlutterError(message: "Not implemented"))
         }
     }
 }
