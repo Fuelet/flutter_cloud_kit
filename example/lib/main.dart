@@ -1,63 +1,77 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:flutter_cloud_kit/flutter_cloud_kit.dart';
+import 'package:flutter_cloud_kit/types/cloud_kit_account_status.dart';
+
+const exampleContainerId = "app.fuelet.flutter_cloud_kit.example";
 
 void main() {
-  runApp(const MyApp());
+  runApp(const FlutterCloudKitExample());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class FlutterCloudKitExample extends StatefulWidget {
+  const FlutterCloudKitExample({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<FlutterCloudKitExample> createState() => _FlutterCloudKitExampleState();
 }
 
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _flutterCloudKitPlugin = FlutterCloudKit();
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _flutterCloudKitPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
+  TextEditingController key = TextEditingController();
+  TextEditingController value = TextEditingController();
+  FlutterCloudKit cloudKit = FlutterCloudKit();
+  CloudKitAccountStatus? accountStatus;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
-      ),
+          appBar: AppBar(
+            title: const Text('Flutter cloud kit example'),
+          ),
+          body: Column(
+            children: [
+              TextFormField(
+                controller: key,
+                decoration: const InputDecoration(hintText: 'Key'),
+              ),
+              TextFormField(
+                controller: value,
+                decoration: const InputDecoration(hintText: 'Value'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  print("Not implemented yet");
+                },
+                child: const Text('Save'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  print("Not implemented yet");
+                },
+                child: const Text('Get'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  print("Not implemented yet");
+                },
+                child: const Text('Delete'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  accountStatus =
+                      await cloudKit.getAccountStatus(exampleContainerId);
+                  setState(() {});
+                },
+                child: const Text('Get account status'),
+              ),
+              (accountStatus != null)
+                  ? Text(
+                      'Current account status: $accountStatus',
+                      textAlign: TextAlign.center,
+                    )
+                  : Container()
+            ],
+          )),
     );
   }
 }

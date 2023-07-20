@@ -1,3 +1,4 @@
+import 'package:flutter_cloud_kit/types/cloud_kit_account_status.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'flutter_cloud_kit_method_channel.dart';
@@ -23,7 +24,7 @@ abstract class FlutterCloudKitPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+  Future<CloudKitAccountStatus> getAccountStatus(String containerId) {
+    throw UnimplementedError('getAccountStatus() has not been implemented.');
   }
 }
