@@ -24,7 +24,7 @@ abstract class FlutterCloudKitPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<CloudKitAccountStatus> getAccountStatus(String containerId) {
+  Future<CloudKitAccountStatus> getAccountStatus(String? containerId) {
     throw UnimplementedError('getAccountStatus() has not been implemented.');
   }
 }

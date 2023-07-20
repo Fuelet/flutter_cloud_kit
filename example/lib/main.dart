@@ -18,7 +18,7 @@ class FlutterCloudKitExample extends StatefulWidget {
 class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
   TextEditingController key = TextEditingController();
   TextEditingController value = TextEditingController();
-  FlutterCloudKit cloudKit = FlutterCloudKit();
+  FlutterCloudKit cloudKit = FlutterCloudKit(containerId: exampleContainerId);
   CloudKitAccountStatus? accountStatus;
 
   @override
@@ -58,8 +58,7 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  accountStatus =
-                      await cloudKit.getAccountStatus(exampleContainerId);
+                  accountStatus = await cloudKit.getAccountStatus();
                   setState(() {});
                 },
                 child: const Text('Get account status'),

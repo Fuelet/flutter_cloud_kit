@@ -6,14 +6,13 @@ import 'flutter_cloud_kit_platform_interface.dart';
 
 /// An implementation of [FlutterCloudKitPlatform] that uses method channels.
 class MethodChannelFlutterCloudKit extends FlutterCloudKitPlatform {
-  /// The method channel used to interact with the native platform.
   @visibleForTesting
   final methodChannel = const MethodChannel('app.fuelet.flutter_cloud_kit');
 
   @override
-  Future<CloudKitAccountStatus> getAccountStatus(String containerId) async {
-    int rawStatus = await methodChannel
-        .invokeMethod('getAccountStatus', {"containerId": containerId});
+  Future<CloudKitAccountStatus> getAccountStatus(String? containerId) async {
+    final args = containerId == null ? {} : {"containerId": containerId};
+    int rawStatus = await methodChannel.invokeMethod('getAccountStatus', args);
     try {
       return CloudKitAccountStatus.values[rawStatus];
     } catch (_) {
