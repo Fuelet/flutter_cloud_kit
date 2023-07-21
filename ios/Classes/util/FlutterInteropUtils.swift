@@ -50,21 +50,34 @@ func getDatabaseFromArgs(arguments: Dictionary<String, Any>) -> CKDatabase? {
     }
 }
 
-func recordToDictionary(record: CKRecord) -> Dictionary<String, Any> {
-    var dictionary: [String: Any] = [:];
+func convertCkRecordType(value: __CKRecordObjCValue) -> Any? {
+    if let str = value as? NSString {
+        return str as String;
+    } else if let num = value as? NSNumber {
+        return num.stringValue;
+    } else if let data = value as? NSData {
+        return data.base64EncodedString();
+    } else if let date = value as? NSDate {
+        return date.timeIntervalSince1970;
+    } else if let reference = value as? CKRecord.Reference {
+        return reference.recordID.recordName;
+    } else if let asset = value as? CKAsset {
+        return asset.fileURL?.absoluteString;
+    } else  {
+        // not supported
+        return nil;
+    }
+}
+
+func recordToDictionary(record: CKRecord) -> Dictionary<String, Any?> {
+    var dictionary: [String: Any?] = [:];
     
     dictionary["recordName"] = record.recordID.recordName;
     dictionary["recordType"] = record.recordType;
     
     for key in record.allKeys() {
         if let value = record[key] {
-            if let reference = value as? CKRecord.Reference {
-                dictionary[key] = reference.recordID.recordName;
-            } else if let asset = value as? CKAsset {
-                dictionary[key] = asset.fileURL?.absoluteString;
-            } else {
-                dictionary[key] = value;
-            }
+            dictionary[key] = convertCkRecordType(value: value);
         }
     }
     

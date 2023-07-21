@@ -25,4 +25,10 @@ class FlutterCloudKit {
         record: record,
         recordName: recordName);
   }
+
+  Future<Map<String, dynamic>> getRecord(
+      {required CloudKitDatabaseScope scope, required String recordName}) {
+    return FlutterCloudKitPlatform.instance.getRecord(
+        containerId: containerId, scope: scope, recordName: recordName);
+  }
 }
