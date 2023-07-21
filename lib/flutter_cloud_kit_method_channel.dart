@@ -74,10 +74,17 @@ class MethodChannelFlutterCloudKit extends FlutterCloudKitPlatform {
       args['containerId'] = containerId;
     }
 
-    List<Map<Object?, Object?>> result =
+    List<Object?> result =
         await methodChannel.invokeMethod('getRecordsByType', args);
 
-    return result.map(CloudKitRecord.fromMap).toList();
+    try {
+      return result
+          .map((e) => e as Map<Object?, Object?>)
+          .map(CloudKitRecord.fromMap)
+          .toList();
+    } catch (e) {
+      throw Exception('Cannot parse cloud kit response: $e');
+    }
   }
 
   @override

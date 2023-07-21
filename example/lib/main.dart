@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_cloud_kit/flutter_cloud_kit.dart';
 import 'package:flutter_cloud_kit/types/cloud_ket_record.dart';
-import 'package:flutter_cloud_kit/types/cloud_kit_account_status.dart';
 import 'package:flutter_cloud_kit/types/database_scope.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 const exampleContainerId = "iCloud.flutter_cloud_kit_example";
 const exampleRecordType = "ExampleRecordType";
@@ -24,9 +26,7 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
   TextEditingController key = TextEditingController();
   TextEditingController value = TextEditingController();
   FlutterCloudKit cloudKit = FlutterCloudKit(containerId: exampleContainerId);
-  CloudKitAccountStatus? accountStatus;
-  CloudKitRecord? fetchedRecord;
-  List<CloudKitRecord>? fetchedRecordsByType;
+  List<String> fetchedRecordsText = [];
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +58,9 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
                         recordType: exampleRecordType,
                         record: record,
                         recordName: recordName.text);
-                    print('Successfully saved the record $record');
+                    _debugMessage('Successfully saved the record $record');
                   } catch (e) {
-                    print('Failed to save the record: $e');
+                    _debugMessage('Failed to save the record: $e');
                   }
                 },
                 child: const Text('Save'),
@@ -68,20 +68,35 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
               ElevatedButton(
                 onPressed: () async {
                   var name = recordName.text;
-                  fetchedRecord = await cloudKit.getRecord(
-                      scope: databaseScope, recordName: name);
-                  print('Successfully got the record by name $name');
-                  setState(() {});
+                  try {
+                    var fetchedRecord = await cloudKit.getRecord(
+                        scope: databaseScope, recordName: name);
+                    fetchedRecordsText = [
+                      'Fetched record:',
+                      _recordToString(fetchedRecord)
+                    ];
+                    _debugMessage('Successfully got the record by name $name');
+                    setState(() {});
+                  } catch (e) {
+                    _debugMessage('Error getting record by name $name: $e');
+                  }
                 },
                 child: const Text('Get'),
               ),
               ElevatedButton(
                 onPressed: () async {
-                  fetchedRecordsByType = await cloudKit.getRecordsByType(
-                      scope: databaseScope, recordType: exampleRecordType);
-                  print(
-                      'Successfully got ${fetchedRecordsByType!.length} records by type');
-                  setState(() {});
+                  try {
+                    var fetchedRecordsByType = await cloudKit.getRecordsByType(
+                        scope: databaseScope, recordType: exampleRecordType);
+                    fetchedRecordsText = ['Fetched records:'];
+                    fetchedRecordsText.addAll(
+                        fetchedRecordsByType.map((e) => _recordToString(e)));
+                    _debugMessage(
+                        'Successfully got ${fetchedRecordsByType.length} records by type');
+                    setState(() {});
+                  } catch (e) {
+                    _debugMessage("Error getting records by type: $e");
+                  }
                 },
                 child: const Text('Get all records by type'),
               ),
@@ -91,40 +106,46 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
                   try {
                     await cloudKit.deleteRecord(
                         scope: databaseScope, recordName: name);
-                    print('Successfully deleted record by name $name');
+                    _debugMessage('Successfully deleted record by name $name');
                   } catch (e) {
-                    print('Error deleting the record $name: $e');
+                    _debugMessage('Error deleting the record $name: $e');
                   }
                 },
                 child: const Text('Delete'),
               ),
               ElevatedButton(
                 onPressed: () async {
-                  accountStatus = await cloudKit.getAccountStatus();
-                  setState(() {});
+                  var accountStatus = await cloudKit.getAccountStatus();
+                  _debugMessage('Current account status: $accountStatus');
                 },
                 child: const Text('Get account status'),
               ),
-              (fetchedRecord != null)
-                  ? Text(
-                      'Fetched record: $fetchedRecord',
-                      textAlign: TextAlign.center,
-                    )
-                  : Container(),
-              (fetchedRecordsByType != null)
-                  ? Text(
-                      'Fetched records by type: $fetchedRecordsByType',
-                      textAlign: TextAlign.center,
-                    )
-                  : Container(),
-              (accountStatus != null)
-                  ? Text(
-                      'Current account status: $accountStatus',
-                      textAlign: TextAlign.center,
-                    )
-                  : Container()
+              Column(
+                  children: fetchedRecordsText
+                      .map((e) => Text(e, textAlign: TextAlign.center))
+                      .toList()),
             ],
           )),
     );
   }
+}
+
+void _debugMessage(String message) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_LONG,
+    gravity: ToastGravity.TOP,
+    backgroundColor: Colors.black,
+    textColor: Colors.white,
+  );
+  print(message);
+}
+
+String _recordToString(CloudKitRecord record) {
+  var obj = {
+    'recordType': record.recordType,
+    'recordName': record.recordName,
+    'values': record.values
+  };
+  return jsonEncode(obj);
 }
