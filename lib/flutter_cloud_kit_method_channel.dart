@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cloud_kit/types/cloud_ket_record.dart';
 import 'package:flutter_cloud_kit/types/cloud_kit_account_status.dart';
 import 'package:flutter_cloud_kit/types/database_scope.dart';
 
@@ -43,7 +44,7 @@ class MethodChannelFlutterCloudKit extends FlutterCloudKitPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>> getRecord(
+  Future<CloudKitRecord> getRecord(
       {String? containerId,
       required CloudKitDatabaseScope scope,
       required String recordName}) async {
@@ -56,7 +57,8 @@ class MethodChannelFlutterCloudKit extends FlutterCloudKitPlatform {
     }
     Map<Object?, Object?> result =
         await methodChannel.invokeMethod('getRecord', args);
-    return result.map((key, value) => MapEntry(key.toString(), value));
+
+    return CloudKitRecord.fromMap(result);
   }
 
   @override

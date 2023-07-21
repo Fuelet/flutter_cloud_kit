@@ -1,3 +1,4 @@
+import 'package:flutter_cloud_kit/types/cloud_ket_record.dart';
 import 'package:flutter_cloud_kit/types/cloud_kit_account_status.dart';
 import 'package:flutter_cloud_kit/types/database_scope.dart';
 
@@ -26,7 +27,7 @@ class FlutterCloudKit {
         recordName: recordName);
   }
 
-  Future<Map<String, dynamic>> getRecord(
+  Future<CloudKitRecord> getRecord(
       {required CloudKitDatabaseScope scope, required String recordName}) {
     return FlutterCloudKitPlatform.instance.getRecord(
         containerId: containerId, scope: scope, recordName: recordName);

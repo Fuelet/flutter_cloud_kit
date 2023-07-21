@@ -1,3 +1,4 @@
+import 'package:flutter_cloud_kit/types/cloud_ket_record.dart';
 import 'package:flutter_cloud_kit/types/cloud_kit_account_status.dart';
 import 'package:flutter_cloud_kit/types/database_scope.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -38,7 +39,7 @@ abstract class FlutterCloudKitPlatform extends PlatformInterface {
     throw UnimplementedError('saveRecord() has not been implemented.');
   }
 
-  Future<Map<String, dynamic>> getRecord(
+  Future<CloudKitRecord> getRecord(
       {String? containerId,
       required CloudKitDatabaseScope scope,
       required String recordName}) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cloud_kit/flutter_cloud_kit.dart';
+import 'package:flutter_cloud_kit/types/cloud_ket_record.dart';
 import 'package:flutter_cloud_kit/types/cloud_kit_account_status.dart';
 import 'package:flutter_cloud_kit/types/database_scope.dart';
 
@@ -24,7 +25,7 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
   TextEditingController value = TextEditingController();
   FlutterCloudKit cloudKit = FlutterCloudKit(containerId: exampleContainerId);
   CloudKitAccountStatus? accountStatus;
-  Map<String, dynamic>? fetchedRecord;
+  CloudKitRecord? fetchedRecord;
 
   @override
   Widget build(BuildContext context) {
