@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.icloud-container-identifiers</key>
 	<array>
-		<string>iCloud.app.fuelet.flutter_cloud_kit.example</string>
+		<string>iCloud.flutter_cloud_kit_example</string>
 	</array>
 	<key>com.apple.developer.icloud-services</key>
 	<array>

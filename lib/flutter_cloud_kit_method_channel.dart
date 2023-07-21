@@ -54,6 +54,8 @@ class MethodChannelFlutterCloudKit extends FlutterCloudKitPlatform {
     if (containerId != null) {
       args['containerId'] = containerId;
     }
-    return await methodChannel.invokeMethod('getRecord', args);
+    Map<Object?, Object?> result =
+        await methodChannel.invokeMethod('getRecord', args);
+    return result.map((key, value) => MapEntry(key.toString(), value));
   }
 }
