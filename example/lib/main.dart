@@ -69,6 +69,7 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
                   fetchedRecord = await cloudKit.getRecord(
                       scope: databaseScope, recordName: name);
                   print('Successfully got the record by name $name');
+                  setState(() {});
                 },
                 child: const Text('Get'),
               ),

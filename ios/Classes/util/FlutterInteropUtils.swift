@@ -75,11 +75,12 @@ func recordToDictionary(record: CKRecord) -> Dictionary<String, Any?> {
     dictionary["recordName"] = record.recordID.recordName;
     dictionary["recordType"] = record.recordType;
     
+    var recordDictionary: [String: Any?] = [:];
     for key in record.allKeys() {
         if let value = record[key] {
-            dictionary[key] = convertCkRecordType(value: value);
+            recordDictionary[key] = convertCkRecordType(value: value);
         }
     }
-    
+    dictionary["record"] = recordDictionary;
     return dictionary;
 }
