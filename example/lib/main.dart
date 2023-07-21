@@ -26,6 +26,7 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
   FlutterCloudKit cloudKit = FlutterCloudKit(containerId: exampleContainerId);
   CloudKitAccountStatus? accountStatus;
   CloudKitRecord? fetchedRecord;
+  List<CloudKitRecord>? fetchedRecordsByType;
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +77,16 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
               ),
               ElevatedButton(
                 onPressed: () async {
+                  fetchedRecordsByType = await cloudKit.getRecordsByType(
+                      scope: databaseScope, recordType: exampleRecordType);
+                  print(
+                      'Successfully got ${fetchedRecordsByType!.length} records by type');
+                  setState(() {});
+                },
+                child: const Text('Get all records by type'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
                   var name = recordName.text;
                   try {
                     await cloudKit.deleteRecord(
@@ -97,6 +108,12 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
               (fetchedRecord != null)
                   ? Text(
                       'Fetched record: $fetchedRecord',
+                      textAlign: TextAlign.center,
+                    )
+                  : Container(),
+              (fetchedRecordsByType != null)
+                  ? Text(
+                      'Fetched records by type: $fetchedRecordsByType',
                       textAlign: TextAlign.center,
                     )
                   : Container(),
