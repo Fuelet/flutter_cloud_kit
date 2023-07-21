@@ -58,4 +58,19 @@ class MethodChannelFlutterCloudKit extends FlutterCloudKitPlatform {
         await methodChannel.invokeMethod('getRecord', args);
     return result.map((key, value) => MapEntry(key.toString(), value));
   }
+
+  @override
+  Future<void> deleteRecord(
+      {String? containerId,
+      required CloudKitDatabaseScope scope,
+      required String recordName}) async {
+    var args = {
+      'databaseScope': scope.name,
+      'recordName': recordName,
+    };
+    if (containerId != null) {
+      args['containerId'] = containerId;
+    }
+    await methodChannel.invokeMethod('deleteRecord', args);
+  }
 }

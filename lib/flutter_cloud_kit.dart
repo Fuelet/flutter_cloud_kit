@@ -31,4 +31,10 @@ class FlutterCloudKit {
     return FlutterCloudKitPlatform.instance.getRecord(
         containerId: containerId, scope: scope, recordName: recordName);
   }
+
+  Future<void> deleteRecord(
+      {required CloudKitDatabaseScope scope, required String recordName}) {
+    return FlutterCloudKitPlatform.instance.deleteRecord(
+        containerId: containerId, scope: scope, recordName: recordName);
+  }
 }

@@ -75,7 +75,14 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  print("Not implemented yet");
+                  var name = recordName.text;
+                  try {
+                    await cloudKit.deleteRecord(
+                        scope: databaseScope, recordName: name);
+                    print('Successfully deleted record by name $name');
+                  } catch (e) {
+                    print('Error deleting the record $name: $e');
+                  }
                 },
                 child: const Text('Delete'),
               ),
@@ -88,15 +95,15 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
               ),
               (fetchedRecord != null)
                   ? Text(
-                'Fetched record: $fetchedRecord',
-                textAlign: TextAlign.center,
-              )
+                      'Fetched record: $fetchedRecord',
+                      textAlign: TextAlign.center,
+                    )
                   : Container(),
               (accountStatus != null)
                   ? Text(
-                'Current account status: $accountStatus',
-                textAlign: TextAlign.center,
-              )
+                      'Current account status: $accountStatus',
+                      textAlign: TextAlign.center,
+                    )
                   : Container()
             ],
           )),
