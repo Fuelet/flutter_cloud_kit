@@ -62,6 +62,25 @@ class MethodChannelFlutterCloudKit extends FlutterCloudKitPlatform {
   }
 
   @override
+  Future<List<CloudKitRecord>> getRecordsByType(
+      {String? containerId,
+      required CloudKitDatabaseScope scope,
+      required String recordType}) async {
+    var args = {
+      'databaseScope': scope.name,
+      'recordType': recordType,
+    };
+    if (containerId != null) {
+      args['containerId'] = containerId;
+    }
+
+    List<Map<Object?, Object?>> result =
+        await methodChannel.invokeMethod('getRecordsByType', args);
+
+    return result.map(CloudKitRecord.fromMap).toList();
+  }
+
+  @override
   Future<void> deleteRecord(
       {String? containerId,
       required CloudKitDatabaseScope scope,

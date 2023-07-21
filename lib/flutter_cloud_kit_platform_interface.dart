@@ -46,6 +46,13 @@ abstract class FlutterCloudKitPlatform extends PlatformInterface {
     throw UnimplementedError('getRecord() has not been implemented.');
   }
 
+  Future<List<CloudKitRecord>> getRecordsByType(
+      {String? containerId,
+      required CloudKitDatabaseScope scope,
+      required String recordType}) {
+    throw UnimplementedError('getRecordsByType() has not been implemented.');
+  }
+
   Future<void> deleteRecord(
       {String? containerId,
       required CloudKitDatabaseScope scope,
