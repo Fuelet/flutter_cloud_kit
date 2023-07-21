@@ -4,6 +4,22 @@ import 'package:flutter_cloud_kit/types/database_scope.dart';
 
 import 'flutter_cloud_kit_platform_interface.dart';
 
+final _cloudKitIdentifierRegexp = RegExp(r'^[a-zA-Z]\w+$');
+// couldn't use '*' instead of '+' in _cloudKitIdentifierRegexp because of the warning:
+// Your expression contains a pattern that is known to freeze the browser with Javascript compiled version.
+final _letterRegexp = RegExp(r'^[a-zA-Z]$');
+
+// Needed because otherwise incorrect identifiers lead to Objective-C fatal errors
+// that crash the app
+// TODO: get rid of once Objective-C error handling is in place
+void validateCloudKitIdentifier(String identifier) {
+  bool isValidIdentifier = _letterRegexp.hasMatch(identifier) ||
+      _cloudKitIdentifierRegexp.hasMatch(identifier);
+  if (!isValidIdentifier) {
+    throw Exception('Identifier "$identifier" is not valid for cloud kit');
+  }
+}
+
 class FlutterCloudKit {
   final String? containerId;
 
@@ -19,6 +35,8 @@ class FlutterCloudKit {
       required String recordType,
       required Map<String, String> record,
       String? recordName}) {
+    validateCloudKitIdentifier(recordType);
+    record.keys.forEach(validateCloudKitIdentifier);
     return FlutterCloudKitPlatform.instance.saveRecord(
         containerId: containerId,
         scope: scope,
