@@ -36,6 +36,14 @@ func getRecordIdFromArgsOrDefault(arguments: Dictionary<String, Any>) -> CKRecor
     }
 }
 
+func getRecordTypeFromArgs(arguments: Dictionary<String, Any>) -> String? {
+    return arguments["recordType"] as? String;
+}
+
+func getRecordValuesFromArgs(arguments: Dictionary<String, Any>) -> Dictionary<String, String>? {
+    return arguments["record"] as? Dictionary<String, String>;
+}
+
 func getDatabaseFromArgs(arguments: Dictionary<String, Any>) -> CKDatabase? {
     let container = getContainerFromArgsOrDefault(arguments: arguments);
     if let databaseScope = arguments["databaseScope"] as? String {

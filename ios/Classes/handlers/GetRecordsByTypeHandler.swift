@@ -1,18 +1,18 @@
 //
-//  SaveRecordHandler.swift
+//  GetRecordsByTypeHandler.swift
 //  flutter_cloud_kit
 //
-//  Created by Mikhail Poplavkov on 20.07.23.
+//  Created by Mikhail Poplavkov on 21.07.23.
 //
+
 
 import CloudKit
 import Flutter
 
-class SaveRecordHandler {
+class GetRecordsByTypeHandler {
     static func handle(arguments: Dictionary<String, Any>, result: @escaping FlutterResult) -> Void {
         let database: CKDatabase;
         let recordType: String;
-        let recordValues: Dictionary<String, String>;
         
         if let databaseOpt = getDatabaseFromArgs(arguments: arguments) {
             database = databaseOpt;
@@ -26,26 +26,24 @@ class SaveRecordHandler {
             return result(createFlutterError(message: "Couldn't parse the required parameter 'recordType'"));
         }
         
-        if let recordValuesOpt = getRecordValuesFromArgs(arguments: arguments) {
-            recordValues = recordValuesOpt;
-        } else {
-            return result(createFlutterError(message: "Couldn't parse the required parameter 'record'"));
-        }
+        let predicate = NSPredicate(value: true);
+        // TODO: make sort to be custom
+        let sort = NSSortDescriptor(key: "creationDate", ascending: true);
+        let query = CKQuery(recordType: recordType, predicate: predicate);
+        query.sortDescriptors = [sort];
         
-        let recordId = getRecordIdFromArgsOrDefault(arguments: arguments);
-        let record = CKRecord(recordType: recordType, recordID: recordId);
-        
-        // TODO: handle ObjectiveC exceptions
-        record.setValuesForKeys(recordValues);
-        
-        database.save(record) { (record, error) in
+        // TODO: add pagination
+        // TODO: add ability to specify desired keys
+        database.perform(query, inZoneWith: nil) { (records: [CKRecord]?, error: Error?) in
             if (error != nil) {
                 return result(createFlutterError(message: error!.localizedDescription));
             }
-            if (record == nil) {
-                return result(createFlutterError(message: "Got nil while saving the record"));
+            if (records == nil) {
+                return result([:]);
+            } else {
+                let transformed = records!.map(recordToDictionary);
+                return result(transformed);
             }
-            return result(true);
         }
     }
 }
