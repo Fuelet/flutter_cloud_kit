@@ -18,6 +18,8 @@ public class FlutterCloudKitPlugin: NSObject, FlutterPlugin {
             return SaveRecordHandler.handle(arguments: callArguments, result: result);
         } else if (call.method == "getRecord") {
             return GetRecordHandler.handle(arguments: callArguments, result: result);
+        } else if (call.method == "deleteRecord") {
+            return DeleteRecordHandler.handle(arguments: callArguments, result: result);
         } else {
             return result(createFlutterError(message: "Not implemented"));
         }
