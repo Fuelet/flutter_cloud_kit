@@ -1,3 +1,8 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* Initial release of the plugin with the following functions for interaction with CloudKit:
+  * *getAccountStatus*
+  * *saveRecord*
+  * *getRecord*
+  * *deleteRecord*
+  * *getRecordsByType*
