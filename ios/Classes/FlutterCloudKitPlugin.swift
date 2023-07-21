@@ -13,11 +13,11 @@ public class FlutterCloudKitPlugin: NSObject, FlutterPlugin {
         let callArguments: Dictionary<String, Any> = call.arguments as! Dictionary<String, Any>
         
         if (call.method == "getAccountStatus") {
-            GetAccountStatusHandler.handle(arguments: callArguments, result: result)
+            return GetAccountStatusHandler.handle(arguments: callArguments, result: result);
         } else if (call.method == "saveRecord") {
-            SaveRecordHandler.handle(arguments: callArguments, result: result)
+            return SaveRecordHandler.handle(arguments: callArguments, result: result);
         } else {
-            result(createFlutterError(message: "Not implemented"))
+            return result(createFlutterError(message: "Not implemented"));
         }
     }
 }
