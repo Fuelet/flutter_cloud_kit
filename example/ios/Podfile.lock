@@ -2,34 +2,22 @@ PODS:
   - Flutter (1.0.0)
   - flutter_cloud_kit (0.0.1):
     - Flutter
-  - fluttertoast (0.0.2):
-    - Flutter
-    - Toast
-  - Toast (4.0.0)
+    - FlutterMacOS
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_cloud_kit (from `.symlinks/plugins/flutter_cloud_kit/ios`)
-  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-
-SPEC REPOS:
-  trunk:
-    - Toast
+  - flutter_cloud_kit (from `.symlinks/plugins/flutter_cloud_kit/darwin`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
   flutter_cloud_kit:
-    :path: ".symlinks/plugins/flutter_cloud_kit/ios"
-  fluttertoast:
-    :path: ".symlinks/plugins/fluttertoast/ios"
+    :path: ".symlinks/plugins/flutter_cloud_kit/darwin"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_cloud_kit: ad1a2bc7880af268179fda694847e8401400bf72
-  fluttertoast: fafc4fa4d01a6a9e4f772ecd190ffa525e9e2d9c
-  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+  flutter_cloud_kit: c204c1fd9ca6a2c13c29f1d20c5b29e7390c6053
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.11.3

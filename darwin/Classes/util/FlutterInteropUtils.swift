@@ -5,7 +5,12 @@
 //  Created by Mikhail Poplavkov on 20.07.23.
 //
 
+#if os(iOS)
 import Flutter
+#elseif os(macOS)
+import FlutterMacOS
+#endif
+
 import CloudKit
 
 func createFlutterError(message: String) -> FlutterError {

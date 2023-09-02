@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cloud_kit/flutter_cloud_kit.dart';
 import 'package:flutter_cloud_kit/types/cloud_ket_record.dart';
 import 'package:flutter_cloud_kit/types/database_scope.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 const exampleContainerId = "iCloud.flutter_cloud_kit_example";
 const exampleRecordType = "ExampleRecordType";
@@ -28,10 +27,13 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
   FlutterCloudKit cloudKit = FlutterCloudKit(containerId: exampleContainerId);
   List<String> fetchedRecordsText = [];
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
             title: const Text('Flutter cloud kit example'),
           ),
@@ -128,17 +130,13 @@ class _FlutterCloudKitExampleState extends State<FlutterCloudKitExample> {
           )),
     );
   }
-}
 
-void _debugMessage(String message) {
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: Toast.LENGTH_LONG,
-    gravity: ToastGravity.TOP,
-    backgroundColor: Colors.black,
-    textColor: Colors.white,
-  );
-  print(message);
+  void _debugMessage(String message) {
+    debugPrint(message);
+    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
 }
 
 String _recordToString(CloudKitRecord record) {
