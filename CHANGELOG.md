@@ -1,3 +1,7 @@
+## 0.0.3
+
+* Add MacOS support 
+
 ## 0.0.2
 
 * Add documentation to the public methods 
