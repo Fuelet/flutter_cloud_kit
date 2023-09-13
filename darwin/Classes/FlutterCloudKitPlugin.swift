@@ -1,9 +1,18 @@
+#if os(iOS)
 import Flutter
-import UIKit
+#elseif os(macOS)
+import FlutterMacOS
+#endif
 
 public class FlutterCloudKitPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "app.fuelet.flutter_cloud_kit", binaryMessenger: registrar.messenger())
+        #if os(iOS)
+            let messenger = registrar.messenger()
+        #else
+            let messenger = registrar.messenger
+        #endif
+        
+        let channel = FlutterMethodChannel(name: "app.fuelet.flutter_cloud_kit", binaryMessenger: messenger)
         let instance = FlutterCloudKitPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }

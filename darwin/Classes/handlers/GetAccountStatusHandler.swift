@@ -6,7 +6,12 @@
 //
 
 import CloudKit
+
+#if os(iOS)
 import Flutter
+#elseif os(macOS)
+import FlutterMacOS
+#endif
 
 class GetAccountStatusHandler {
     static func handle(arguments: Dictionary<String, Any>, result: @escaping FlutterResult) -> Void {

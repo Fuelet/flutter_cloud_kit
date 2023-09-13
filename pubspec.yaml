@@ -5,7 +5,7 @@ homepage: https://github.com/Fuelet/flutter_cloud_kit
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
-  flutter: ">=2.5.0"
+  flutter: ">=3.7.0"
 
 dependencies:
   flutter:
@@ -22,3 +22,7 @@ flutter:
     platforms:
       ios:
         pluginClass: FlutterCloudKitPlugin
+        sharedDarwinSource: true
+      macos:
+        pluginClass: FlutterCloudKitPlugin
+        sharedDarwinSource: true

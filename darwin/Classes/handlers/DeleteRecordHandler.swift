@@ -1,14 +1,19 @@
 //
-//  GetRecordHandler.swift
+//  DeleteRecordHandler.swift
 //  flutter_cloud_kit
 //
 //  Created by Mikhail Poplavkov on 20.07.23.
 //
 
 import CloudKit
-import Flutter
 
-class GetRecordHandler {
+#if os(iOS)
+import Flutter
+#elseif os(macOS)
+import FlutterMacOS
+#endif
+
+class DeleteRecordHandler {
     static func handle(arguments: Dictionary<String, Any>, result: @escaping FlutterResult) -> Void {
         let database: CKDatabase;
         if let databaseOpt = getDatabaseFromArgs(arguments: arguments) {
@@ -24,15 +29,14 @@ class GetRecordHandler {
             return result(createFlutterError(message: "Cannot parse record id"));
         }
         
-        database.fetch(withRecordID: recordId) { (record, error) in
+        database.delete(withRecordID: recordId) { (recordId, error) in
             if (error != nil) {
                 return result(createFlutterError(message: error!.localizedDescription));
             }
-            if (record == nil) {
-                return result(createFlutterError(message: "Got nil when fetching the record"));
+            if (recordId == nil) {
+                return result(createFlutterError(message: "Record was not found"));
             } else {
-                let dict = recordToDictionary(record: record!);
-                return result(dict);
+                return result(true);
             }
         }
     }
